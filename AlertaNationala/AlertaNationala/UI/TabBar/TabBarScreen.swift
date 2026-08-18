@@ -27,6 +27,8 @@ struct TabBarScreen: View {
     @ObservedObject private var tabBarCoordinator = TabBarCoordinator.instance
     @StateObject private var viewModel = TabBarViewModel()
     
+    
+    
     @StateObject private var homeNavigation = Navigation(root: HomeScreen().asDestination())
     @StateObject private var searchNavigation = Navigation(root: HomeScreen().asDestination())
     @StateObject private var chatsNavigation = Navigation(root: HomeScreen().asDestination())
