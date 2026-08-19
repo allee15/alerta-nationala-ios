@@ -17,9 +17,7 @@ struct SideButtonView: View {
         } label: {
             Image(icon)
                 .resizable()
-                .renderingMode(.template)
                 .frame(width: 32, height: 32)
-                .foregroundStyle(Color.mainBlack)
         }
     }
 }

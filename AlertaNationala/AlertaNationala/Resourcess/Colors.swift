@@ -9,20 +9,24 @@ import Foundation
 import SwiftUI
 
 extension Color {
-    static let mainWhite = Color(.mainWhiteCustom)
-    static let mainBlack = Color(.mainBlackCustom)
-    static let mainBlue = Color(.mainBlueCustom)
-    static let secondaryBlue = Color(.secondaryBlueCustom)
-    static let mainBlueButton = Color(.mainBlueLightCustom)
-    static let mainGray = Color(.mainGrayCustom)
-    static let mainBlueInversat = Color(.mainBlueCustomInversat)
-    static let secondaryBlueInversat = Color(.secondaryBlueCustomInversat)
+    static let bgPrimary = Color(.backgroundPrimary)
+    static let sfCard = Color(.surfaceCard)
+    static let textPrimary = Color(.textPrincipal)
+    static let textSecondary = Color(hex: "#8B95A1")
+    static let bluePrimary = Color(hex: "#2E6ADB")
+    static let blueSecondary = Color(hex: "#4A90D9")
+    static let yellowBadge = Color(hex: "#E8A33D")
+    static let redBadge = Color(hex: "#D9392E")
+    static let greenBadge = Color(hex: "#3FA66B")
+    static let offline = Color(hex: "#8B95A1")
+    static let meteo = Color(hex: "#5B7C99")
     
-    static let simpleBlue = Color(hex: "#0D6F73")
     static let lightGreen = Color(hex: "#1B998B")
     static let lightRed = Color(hex: "#D8263E")
     static let contentSecondary = Color(hex: "#91909B")
     static let bottomSheetLine = Color(hex: "#D5D6D8")
+    static let fieldSecondary = Color(hex: "#F5F5F5")
+    static let fieldTextSecondary = Color(hex: "#91909B")
 }
 
 extension Color {

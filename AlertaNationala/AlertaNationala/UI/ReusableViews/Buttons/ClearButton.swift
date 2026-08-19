@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ClearButton: View {
     let text: String
-    var colorText: Color = Color.mainBlack
-    var bgColor: Color = Color.mainWhite
+    var colorText: Color = Color.textPrimary
+    var bgColor: Color = Color.bgPrimary
     let action: () -> ()
     var body: some View {
         Button {

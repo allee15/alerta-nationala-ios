@@ -28,8 +28,7 @@ struct RightNavBarView: View {
         }.padding([.horizontal, .bottom], 16)
             .frame(maxWidth: .infinity)
             .frame(height: 60)
-            .background(Color.mainWhite)
-            .shadow(color: Color.mainBlack.opacity(0.3), radius: 1, x: 0, y: 0)
+            .shadow(color: Color.black.opacity(0.3), radius: 1, x: 0, y: 0)
             .zIndex(1)
     }
 }

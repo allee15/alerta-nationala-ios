@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BackButton: View {
     @EnvironmentObject private var navigation: Navigation
-    var imageColor: Color = .mainBlack
+    var imageColor: Color = .textPrimary
     var action: (()->())?
     
     var body: some View {

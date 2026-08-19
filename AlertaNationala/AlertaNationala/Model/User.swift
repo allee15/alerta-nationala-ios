@@ -21,7 +21,6 @@ struct User {
     let balance: Double
     let level: Int
     let createdAt: Date
-    let posts: [Post]
 }
 
 let userMocked = User(id: "1",
@@ -31,6 +30,5 @@ let userMocked = User(id: "1",
                       isArtist: true,
                       balance: 0.0,
                       level: 5,
-                      createdAt: Date(),
-                      posts: postsMocked)
+                      createdAt: Date())
 

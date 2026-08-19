@@ -14,7 +14,7 @@ struct TitleNavBarView: View {
         HStack {
             Spacer()
             Text(title)
-                .foregroundColor(.mainBlack)
+                .foregroundColor(.textPrimary)
                 .font(.poppinsBold(size: 20))
                 
             Spacer()

@@ -90,9 +90,9 @@ struct TabBarScreen: View {
             }
             
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.mainWhite)
+            .background(Color.bgPrimary)
             .ignoresSafeArea(.container)
             .ignoresSafeArea(.keyboard)
-            .shadow(color: Color.mainBlack.opacity(0.2), radius: 1, x: 0, y: 0)
+            .shadow(color: Color.black.opacity(0.2), radius: 1, x: 0, y: 0)
     }
 }

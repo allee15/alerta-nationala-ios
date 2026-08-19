@@ -23,18 +23,18 @@ struct ModalChooseOptionView: View {
                 
                 Text(title)
                     .font(.poppinsBold(size: 24))
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.textPrimary)
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 12)
                 
                 Text(description)
                     .font(.poppinsRegular(size: 16))
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.textPrimary)
                     .multilineTextAlignment(.center)
                     .padding(.bottom, 24)
                 
                 VStack(spacing: 12) {
-                    ClearButton(text: topButtonText) {
+                    PrimaryButton(text: topButtonText) {
                         onTopButtonTapped()
                     }
                     

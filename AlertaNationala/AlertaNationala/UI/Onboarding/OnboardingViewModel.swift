@@ -10,7 +10,6 @@ import Combine
 
 enum OnboardingState {
     case completed
-    case goToTabBar
 }
 
 class OnboardingViewModel: BaseViewModel {
@@ -21,14 +20,14 @@ class OnboardingViewModel: BaseViewModel {
     
     let onboardingPages: [OnboardingData] = [
         OnboardingData(image: .imgOnboarding1,
-                       title: "Welcome to Artists's land!",
-                       description: "The best community for artists all over the world!"),
+                       title: "Fii informat. Fii in siguranta. ",
+                       description: "AlertaNationala iti transmite avertizari oficiale direct pentru zona ta."),
         OnboardingData(image: .imgOnboarding2,
-                       title: "Discover new ways of art",
-                       description: "Search, scroll and discover the creations of other artists!"),
+                       title: "Ghiduri offline, oricand ai nevoie ",
+                       description: "Functioneaza chiar si fara conexiune la internet, exact atunci cand conteaza cel mai mult."),
         OnboardingData(image: .imgOnboarding3,
-                       title: "Connect with other artists",
-                       description: "Discuss with them, ask questions, exchange experiences and maybe even help them grow as artists!")
+                       title: "Activeaza locatia",
+                       description: "Ca sa-ti aratam alertele relevante pentru zona ta si cel mai apropiat punct de adunare.")
     ]
     
     override init() {
@@ -42,9 +41,5 @@ class OnboardingViewModel: BaseViewModel {
         } else if pageIndex < onboardingPages.count - 1 {
             pageIndex += 1
         }
-    }
-    
-    func goToLogin() {
-        self.userDefaultsService.setOnboarding(onboardingIsOver: true)
     }
 }

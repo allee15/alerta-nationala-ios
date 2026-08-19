@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CloseButton: View {
     @EnvironmentObject private var navigation: Navigation
+    var imageColor: Color = .textPrimary
     var action: (() -> ())?
     
     var body: some View {
@@ -19,7 +20,7 @@ struct CloseButton: View {
             Image(.icNavClose)
                 .resizable()
                 .renderingMode(.template)
-                .foregroundStyle(Color.mainBlack)
+                .foregroundStyle(imageColor)
                 .frame(width: 32, height: 32)
         }
     }

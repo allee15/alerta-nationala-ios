@@ -28,6 +28,6 @@ struct UnloggedUserView: View {
                 .padding(.horizontal, 20)
             
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.mainWhite)
+            .background(Color.bgPrimary)
     }
 }

@@ -23,8 +23,7 @@ class JSONParsers {
             isArtist: json["accType"].stringValue == "artist" ? true : false,
             balance: json["balance"].doubleValue,
             level: json["level"].intValue,
-            createdAt: Date(),
-            posts: [] //todo fixme
+            createdAt: Date()
         )
     }
 }

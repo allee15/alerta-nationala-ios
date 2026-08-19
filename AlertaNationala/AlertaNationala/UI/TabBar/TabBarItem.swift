@@ -58,13 +58,13 @@ struct TabBarItemView: View {
                 Image(tabBarItem.imageName)
                     .resizable()
                     .renderingMode(.template)
-                    .foregroundStyle(isSelected ? Color.secondaryBlueInversat : Color.mainBlack)
+                    .foregroundStyle(isSelected ? Color.bluePrimary : Color.textPrimary)
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18)
                 
                 Text(tabBarItem.title)
                     .font(.system(size: 12))
-                    .foregroundColor(isSelected ? .secondaryBlueInversat : Color.mainBlack)
+                    .foregroundColor(isSelected ? .bluePrimary : Color.textPrimary)
                     .frame(height: 14)
             }
         }
@@ -93,7 +93,7 @@ struct TabBarView: View {
             .padding(.top, 8)
             .cornerRadius(8, corners: [.topLeft, .topRight])
             .background(
-                Color.mainWhite
+                Color.bgPrimary
                     .cornerRadius(8, corners: [.topLeft, .topRight])
             )
             

@@ -39,7 +39,7 @@ struct ThemeSettingsScreen: View {
                 }.padding(.horizontal, 16)
                     .padding(.top, 32)
             }
-        }.background(Color.mainWhite)
+        }.background(Color.bgPrimary)
             .ignoresSafeArea(.container, edges: [.bottom, .horizontal])
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -60,25 +60,21 @@ fileprivate struct ThemeWidgetView: View {
                 VStack(spacing: 16) {
                     Image(image)
                         .resizable()
-                        .renderingMode(.template)
-                        .foregroundStyle(Color.secondaryBlueInversat)
                         .frame(width: 50, height: 50)
                     
                     Text(title)
                         .font(.poppinsRegular(size: 14))
-                        .foregroundStyle(Color.mainBlack)
+                        .foregroundStyle(Color.textPrimary)
                     
                     if let isSelected = isSelected {
                         Image(isSelected ? .icOn : .icOff)
                             .resizable()
-                            .renderingMode(.template)
-                            .foregroundStyle(Color.secondaryBlueInversat)
                             .frame(width: 25, height: 25)
                     }
                 }
                 Spacer()
             }.padding(.vertical, 20)
-                .background(Color.mainGray)
+                .background(Color.offline)
                 .cornerRadius(4, corners: .allCorners)
         }
     }

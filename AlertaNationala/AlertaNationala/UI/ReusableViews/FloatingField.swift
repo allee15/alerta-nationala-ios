@@ -2,7 +2,7 @@
 //  FloatingField.swift
 //  AlertaNationala
 //
-//  Created by Alexia Aldea 
+//  Created by Alexia Aldea
 //
 
 import SwiftUI
@@ -12,7 +12,7 @@ struct FloatingField: View {
     var placeHolder: String
     var secureField: Bool = false
     var keyboardType: UIKeyboardType = .default
-    var colors: (bgColor: Color, borderColor: Color, placeholderForeground: Color) = (.white, .black.opacity(0.5), .black)
+    var colors: (bgColor: Color, borderColor: Color, placeholderForeground: Color) = (.fieldSecondary, .fieldSecondary, .fieldTextSecondary)
     var icon: ImageResource?
     var leftIcon: ImageResource?
     var leftIconHeight: CGFloat? = 28
@@ -80,9 +80,9 @@ struct FloatingField: View {
                                 .autocapitalization(.none)
                             }
                         }.foregroundColor(isDisabled ? colors.placeholderForeground.opacity(0.5) : .black)
-                        .font(.poppinsRegular(size: 14))
-                        .padding(.leading, 16)
-                        .offset(y: $text.wrappedValue.isEmpty ? 0 : 4 )
+                            .font(.poppinsRegular(size: 14))
+                            .padding(.leading, 16)
+                            .offset(y: $text.wrappedValue.isEmpty ? 0 : 4 )
                     }
                     .padding(.trailing, secureField ? 60 : 16)
                 }
@@ -143,86 +143,58 @@ struct FloatingField: View {
     }
 }
 
-struct SelectAccountTypeView: View {
-    @Binding var gender: String
-    var gendersList: [String]
-    var colors: (bgColor: Color, borderColor: Color, placeholderForeground: Color) = (.white, .white, .gray)
+struct SelectZonesView: View {
+    @Binding var selectedZones: [String]
+    var zonesList: [String]
+    var colors: (bgColor: Color, borderColor: Color, placeholderForeground: Color) = (.fieldSecondary, .fieldSecondary, .fieldTextSecondary)
     var errorMessage: String? = nil
-    @State var isPickerShown: Bool = false
+    @State private var isSheetShown: Bool = false
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            ZStack {
-                HStack {
-                        Image(.icFieldUserType)
-                            .resizable()
-                            .renderingMode(.template)
-                            .foregroundStyle(Color.black)
-                            .scaledToFit()
-                            .frame(height: 28)
-                            .padding(.trailing, 4)
-                    
-                    if $gender.wrappedValue.isEmpty {
-                        Text("Account type")
-                            .foregroundColor(colors.placeholderForeground)
-                            .font(.poppinsRegular(size: 14))
-                            .multilineTextAlignment(.leading)
-                    } else {
-                        Text("Account type")
-                            .foregroundColor(colors.placeholderForeground)
-                            .font(.poppinsRegular(size: 14))
-                            .scaleEffect(0.75, anchor: .leading)
-                            .offset(y: -12)
-                            .multilineTextAlignment(.leading)
-                            .lineLimit(1)
-                            .truncationMode(.middle)
-                    }
-                    
-                    Spacer()
-                }.padding(.horizontal, 16)
-                    .onTapGesture {
-                        self.isPickerShown = true
-                    }
+            HStack {
+                Image(.icFieldMapPin)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 28)
+                    .padding(.trailing, 4)
                 
-                HStack {
-                        Image(.icFieldUserType)
-                            .resizable()
-                            .renderingMode(.template)
-                            .foregroundStyle(Color.black)
-                            .scaledToFit()
-                            .frame(height: 28)
-                            .padding(.trailing, 4)
-                            .opacity(0)
-                    
-                    TextField(text: $gender) {
+                if selectedZones.isEmpty {
+                    Text("Selecteaza zonele")
+                        .foregroundColor(colors.placeholderForeground)
+                        .font(.poppinsRegular(size: 14))
+                        .multilineTextAlignment(.leading)
+                } else {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Selecteaza zonele")
+                            .foregroundColor(colors.placeholderForeground)
+                            .font(.poppinsRegular(size: 10))
+                        
+                        Text(selectedZones.joined(separator: ", "))
+                            .foregroundColor(Color.black)
+                            .font(.poppinsRegular(size: 14))
+                            .lineLimit(1)
+                            .truncationMode(.tail)
                     }
-                    .foregroundColor(.black)
-                    .font(.poppinsRegular(size: 14))
-                    .padding(.leading, 16)
-                    .offset(y: $gender.wrappedValue.isEmpty ? 0 : 4 )
-                    .padding(.trailing, 16)
                 }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.down")
+                    .resizable()
+                    .renderingMode(.template)
+                    .foregroundColor(colors.placeholderForeground)
+                    .frame(width: 16, height: 12)
             }
+            .padding(.horizontal, 16)
             .frame(height: 54)
             .background(colors.bgColor)
             .cornerRadius(4, corners: .allCorners)
             .border((errorMessage ?? "").isEmpty ? colors.borderColor : Color.lightRed,
                     width: 1,
                     cornerRadius: 4)
-            
-            if isPickerShown {
-                Picker("Gender", selection: $gender) {
-                    ForEach(gendersList, id: \.self) {
-                        Text($0)
-                            .foregroundColor(Color.mainBlack)
-                            .font(.poppinsRegular(size: 18))
-                    }
-                }
-                .pickerStyle(WheelPickerStyle())
-                .labelsHidden()
-                .onTapGesture {
-                    isPickerShown = false
-                }
+            .onTapGesture {
+                isSheetShown = true
             }
             
             if let errorMessage = errorMessage {
@@ -234,6 +206,71 @@ struct SelectAccountTypeView: View {
                 }
                 .padding(.top, 4)
             }
+        }
+        .sheet(isPresented: $isSheetShown) {
+            ZoneMultiSelectSheet(selectedZones: $selectedZones, zonesList: zonesList)
+                .presentationDetents([.medium, .large])
+        }
+    }
+}
+
+struct ZoneMultiSelectSheet: View {
+    @Binding var selectedZones: [String]
+    var zonesList: [String]
+    @Environment(\.dismiss) private var dismiss
+    
+    var body: some View {
+        NavigationStack {
+            List(zonesList, id: \.self) { zone in
+                HStack {
+                    Text(zone)
+                        .font(.poppinsRegular(size: 16))
+                        .foregroundColor(Color.textPrimary)
+                    
+                    Spacer()
+                    
+                    if selectedZones.contains(zone) {
+                        Image(.icCheckedOn)
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundStyle(Color.bgPrimary)
+                            .frame(width: 20, height: 20)
+                    } else {
+                        Image(.icCheckedOff)
+                            .resizable()
+                            .renderingMode(.template)
+                            .foregroundStyle(Color.bgPrimary)
+                            .frame(width: 20, height: 20)
+                    }
+                }
+                .listRowBackground(Color.textSecondary)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    toggleZone(zone)
+                }
+            }
+            .scrollContentBackground(.hidden)
+            .background(Color.textSecondary)
+            .navigationTitle("Selecteaza zone")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Gata") {
+                        dismiss()
+                    }
+                    .font(.poppinsSemiBold(size: 16))
+                    .foregroundColor(Color.bluePrimary)
+                }
+            }
+        }
+        .presentationBackground(Color.fieldSecondary)
+    }
+    
+    private func toggleZone(_ zone: String) {
+        if let index = selectedZones.firstIndex(of: zone) {
+            selectedZones.remove(at: index)
+        } else {
+            selectedZones.append(zone)
         }
     }
 }
