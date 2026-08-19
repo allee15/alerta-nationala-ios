@@ -224,7 +224,7 @@ struct ZoneMultiSelectSheet: View {
             List(zonesList, id: \.self) { zone in
                 HStack {
                     Text(zone)
-                        .font(.poppinsRegular(size: 16))
+                        .font(.poppinsSemiBold(size: 20))
                         .foregroundColor(Color.textPrimary)
                     
                     Spacer()
@@ -234,13 +234,13 @@ struct ZoneMultiSelectSheet: View {
                             .resizable()
                             .renderingMode(.template)
                             .foregroundStyle(Color.bgPrimary)
-                            .frame(width: 20, height: 20)
+                            .frame(width: 24, height: 24)
                     } else {
                         Image(.icCheckedOff)
                             .resizable()
                             .renderingMode(.template)
                             .foregroundStyle(Color.bgPrimary)
-                            .frame(width: 20, height: 20)
+                            .frame(width: 24, height: 24)
                     }
                 }
                 .listRowBackground(Color.textSecondary)
