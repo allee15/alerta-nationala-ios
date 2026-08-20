@@ -31,7 +31,7 @@ class RootViewModel: BaseViewModel {
         applyTheme()
         setupErrorHandling()
     }
-    
+    //TODO: alexia trateaza cazul daca nu e internet!!
     func bind() {
         showBlockingError = false
         
@@ -165,7 +165,7 @@ struct RootView: View {
             .overlay {
                 VStack {
                     if viewModel.showBlockingError {
-                        BlockingErrorScreen(isLoading: viewModel.isLoadingBinding) {
+                        BlockingErrorScreen() {
                             viewModel.retryBinding()
                         }
                     }

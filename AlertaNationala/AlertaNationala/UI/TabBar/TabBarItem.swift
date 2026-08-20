@@ -10,9 +10,8 @@ import SwiftUI
 
 enum TabBarItemType: Equatable {
     case home
-    case search
-    case chats
-    case profile
+    case maps
+    case guides
 }
 
 struct TabBarItem {
@@ -23,26 +22,20 @@ struct TabBarItem {
 
 let homeTabBarItem = TabBarItem(
     type: .home,
-    title: "Home",
+    title: "Acasa",
     imageName: .icHome
 )
 
-let searchTabBarItem = TabBarItem(
-    type: .search,
-    title: "Search",
-    imageName: .icSearch
+let mapsTabBarItem = TabBarItem(
+    type: .maps,
+    title: "Harta",
+    imageName: .icFieldMapPin
 )
 
-let chatsTabBarItem = TabBarItem(
-    type: .chats,
-    title: "Chats",
-    imageName: .icChats
-)
-
-let profileNewsTabBarItem = TabBarItem(
-    type: .profile,
-    title: "Profile",
-    imageName: .icProfile
+let guidesTabBarItem = TabBarItem(
+    type: .guides,
+    title: "Ghiduri",
+    imageName: .icGuide
 )
 
 struct TabBarItemView: View {
@@ -58,15 +51,32 @@ struct TabBarItemView: View {
                 Image(tabBarItem.imageName)
                     .resizable()
                     .renderingMode(.template)
-                    .foregroundStyle(isSelected ? Color.bluePrimary : Color.textPrimary)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 18, height: 18)
+                    .frame(width: 24, height: 24)
+                    .foregroundStyle(isSelected ? Color(hex: "#0B0F14") : Color.textSecondary)
+                    .scaleEffect(isSelected ? 1.05 : 1.0)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isSelected)
+                
                 
                 Text(tabBarItem.title)
-                    .font(.system(size: 12))
-                    .foregroundColor(isSelected ? .bluePrimary : Color.textPrimary)
-                    .frame(height: 14)
+                    .font(.poppinsRegular(size: 14))
+                    .foregroundColor(isSelected ? Color(hex: "#0B0F14") : Color.textSecondary)
             }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 8)
+            .background(
+                Group {
+                    if isSelected {
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .fill(Color.white.opacity(0.4))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                    .strokeBorder(Color.white.opacity(0.7), lineWidth: 0.5)
+                            )
+                            .shadow(color: Color.black.opacity(0.12), radius: 8, x: 0, y: 2)
+                    }
+                }
+            )
+            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
         }
     }
 }
@@ -76,26 +86,37 @@ struct TabBarView: View {
     let items: [TabBarItem]
     
     var body: some View {
-        HStack(spacing: 0) {
+        HStack {
             ForEach(items, id: \.type) { item in
                 TabBarItemView(
                     tabBarItem: item,
                     isSelected: selectedItem == item.type) { tabBarItem in
-                        self.selectedItem = item.type
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            selectedItem = item.type
+                        }
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(.bottom, SafeAreaInsets.bottom > 0 ? 0 : 4)
+                    .contentShape(Rectangle())
             }
-        }.frame(maxWidth: .infinity)
-            .frame(height: 46)
-            .padding(.bottom, SafeAreaInsets.bottom)
-            .padding(.horizontal, 16)
-            .padding(.top, 8)
-            .cornerRadius(8, corners: [.topLeft, .topRight])
-            .background(
-                Color.bgPrimary
-                    .cornerRadius(8, corners: [.topLeft, .topRight])
-            )
-            
+        }
+        .padding(.horizontal, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 28, style: .continuous)
+                .fill(.ultraThinMaterial)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 28, style: .continuous)
+                        .strokeBorder(Color.white.opacity(0.35), lineWidth: 0.5)
+                )
+                .shadow(color: Color.black.opacity(0.05), radius: 12, x: 0, y: 2)
+                .overlay(alignment: .top) {
+                    Capsule()
+                        .fill(Color.white.opacity(0.35))
+                        .frame(height: 1)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 0.5)
+                }
+        )
+        .padding(.horizontal, 14)
+        .padding(.bottom, -8)
     }
 }

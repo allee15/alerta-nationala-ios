@@ -20,9 +20,8 @@ class TabBarViewModel: ObservableObject {
         
         tabBarItems = [
             homeTabBarItem,
-            searchTabBarItem,
-            chatsTabBarItem,
-            profileNewsTabBarItem
+            mapsTabBarItem,
+            guidesTabBarItem
         ]
     }
 }
