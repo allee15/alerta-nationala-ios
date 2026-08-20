@@ -68,7 +68,21 @@ class RegisterViewModel: BaseViewModel {
     }
     
     private func register() {
-        
+        userService.register(email: email, password: password, zones: selectedZones)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else { return }
+                switch completion {
+                case .failure(let error):
+                    self.registerCompletion.send(.failure(error))
+                case .finished:
+                    break
+                }
+            } receiveValue: { [weak self] user in
+                guard let self else { return }
+                self.registerCompletion.send(.register)
+            }
+            .store(in: &bag)
     }
 }
 

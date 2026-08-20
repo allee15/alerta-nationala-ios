@@ -137,7 +137,7 @@ struct RegisterStep2Screen: View {
                     }
                     navigation.presentPopup(modal.asDestination(), animated: true, completion: nil)
                 case .register:
-                    navigation.replaceNavigationStack([TabBarScreen().asDestination()], animated: true)
+                    navigation.push(LoginScreen().asDestination(), animated: true)
                 }
             }
     }

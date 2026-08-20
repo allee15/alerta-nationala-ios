@@ -61,7 +61,7 @@ class RootViewModel: BaseViewModel {
                     switch userState {
                     case .anonymous:
                         if self.userDefaultsService.getOnboardingStatus() {
-                            self.eventSubject.send(.goToTabBar)
+                            self.eventSubject.send(.goToLogin)
                         } else {
                             self.eventSubject.send(.goToOnboarding)
                         }
@@ -135,7 +135,7 @@ struct RootView: View {
                     TabBarCoordinator.instance.tabBarNavigation = .home
                     navigation.replaceNavigationStack([TabBarScreen().asDestination()], animated: true)
                 case .goToLogin:
-                    navigation.replaceNavigationStack([HomeScreen().asDestination(tag: "login")], animated: true)
+                    navigation.replaceNavigationStack([LoginScreen().asDestination(tag: "login")], animated: true)
                 case .goToOnboarding:
                     navigation.push(OnboardingScreen().asDestination(), animated: true)
                 }

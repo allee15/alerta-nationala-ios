@@ -10,20 +10,16 @@ import SwiftyJSON
 
 class JSONParsers {
     static func parseJsonUserResponse(json: JSON) -> UserResponse {
-        return UserResponse(token: json["token"].stringValue,
-                            user: parseJsonUser(json: json))
+        return UserResponse(accessToken: json["accessToken"].stringValue,
+                            refreshToken: json["refreshToken"].stringValue,
+                            user: parseJsonUser(json: json["user"]))
     }
     
     static func parseJsonUser(json: JSON) -> User {
-        return User(
-            id: json["_id"].stringValue,
-            email: json["email"].stringValue,
-            nickname: json["username"].stringValue,
-            avatarUrl: json["profilePic"].stringValue,
-            isArtist: json["accType"].stringValue == "artist" ? true : false,
-            balance: json["balance"].doubleValue,
-            level: json["level"].intValue,
-            createdAt: Date()
-        )
+        return User(id: json["id"].stringValue,
+                    email: json["email"].stringValue,
+                    role: json["role"].stringValue,
+                    zones: json["zones"].arrayValue.map({ $0.stringValue }))
     }
 }
+

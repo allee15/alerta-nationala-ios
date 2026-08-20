@@ -10,7 +10,7 @@ import Foundation
 enum UserDefaultsKeys {
     static let hasOnboardingCompleted = "onboardingIsOver"
     static let appTheme = "appTheme"
-    static let token = Key<String>(value: "token")
+    static let hasLaunchedBefore = "hasLaunchedBefore"
 }
 
 public struct Key<T> {
