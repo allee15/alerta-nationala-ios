@@ -29,7 +29,7 @@ class RegisterViewModel: BaseViewModel {
     @Published var errorMessageEmail: String?
     @Published var errorMessagePassword: String?
     
-    @Published var zones: [String] = ["Constanta", "Galati", "Bucuresti"] //TODO: alexia fix me
+    @Published var zones: [String] = Judete.names
     @Published var selectedZones: [String] = []
     @Published var errorMessZone: String?
     

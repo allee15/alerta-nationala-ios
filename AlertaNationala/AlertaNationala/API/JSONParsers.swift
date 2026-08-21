@@ -21,5 +21,43 @@ class JSONParsers {
                     role: json["role"].stringValue,
                     zones: json["zones"].arrayValue.map({ $0.stringValue }))
     }
+    
+    static func parseJsonAlerts(json: JSON) -> [NationalAlert] {
+        return json.arrayValue.map({ parseJsonAlert(json: $0) })
+    }
+    
+    static func parseJsonAlert(json: JSON) -> NationalAlert {
+        let type = AlertType(rawValue: json["type"].stringValue)
+        let severity = AlertSeverity(rawValue: json["severity"].stringValue)
+        
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions.insert(.withFractionalSeconds)
+        
+        let startsAt = formatter.date(from: json["startsAt"].stringValue) ?? Date()
+        let endsAt = formatter.date(from: json["endsAt"].stringValue) ?? Date()
+        
+        let status = AlertStatus(rawValue: json["status"].stringValue)
+        
+        return NationalAlert(id: json["id"].stringValue,
+                             type: type ?? .alta,
+                             severity: severity ?? .informare,
+                             message: json["message"].stringValue,
+                             zones: json["zones"].arrayValue.map({ $0.stringValue}),
+                             startsAt: startsAt,
+                             endsAt: endsAt,
+                             status: status ?? .ended)
+    }
+    
+    static func parseJsonZonesWeatherList(json: JSON) -> [ZoneWeather] {
+        return json.arrayValue.map({ parseJsonZoneWeather(json: $0) })
+    }
+    
+    static func parseJsonZoneWeather(json: JSON) -> ZoneWeather {
+        return ZoneWeather(zoneName: json["zoneName"].stringValue,
+                           temperature: json["temperature"].doubleValue,
+                           weatherCode: json["weatherCode"].intValue,
+                           description: json["description"].stringValue,
+                           isSevere: json["isSevere"].boolValue)
+    }
 }
 
