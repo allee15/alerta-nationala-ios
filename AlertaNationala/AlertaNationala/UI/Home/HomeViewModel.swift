@@ -54,8 +54,4 @@ class HomeViewModel: BaseViewModel {
             .store(in: &bag)
 
     }
-    
-    func checkIn(alertId: String) {
-        alertsService.checkIn(alertId: alertId)
-    }
 }
