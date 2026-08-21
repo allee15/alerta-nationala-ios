@@ -62,6 +62,7 @@ struct HomeScreen: View {
                     }
                 }
                 .padding([.top, .horizontal], 16)
+                .padding(.bottom, 32)
             }
         }
         .background(Color.bgPrimary)
