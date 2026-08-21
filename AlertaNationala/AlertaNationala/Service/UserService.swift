@@ -149,4 +149,11 @@ class UserService {
             )
             .eraseToAnyPublisher()
     }
+    
+    func updateZones(zones: [String]) -> AnyPublisher<User, Error> {
+        userApi.updateZones(zones: zones)
+            .handleEvents(receiveOutput: { [weak self] user in
+                self?.userReactiveData.pushValue(value: .loggedIn(user))
+            }).eraseToAnyPublisher()
+    }
 }

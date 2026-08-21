@@ -22,6 +22,9 @@ class AlertsService {
     }
     
     func checkIn(alertId: String) {
+        guard !CheckedInAlertsStore.shared.hasCheckedIn(alertId: alertId) else { return }
+        
+        CheckedInAlertsStore.shared.markCheckedIn(alertId: alertId)
         PendingCheckinsStore.shared.enqueue(alertId: alertId, clientTimestamp: Date())
         flushPendingCheckins()
     }

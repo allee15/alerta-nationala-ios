@@ -48,7 +48,7 @@ class HomeViewModel: BaseViewModel {
                 
             } receiveValue: { [weak self] zones in
                 guard let self else {return}
-                self.weather = [ZoneWeather(zoneName: "Titan", temperature: 32.4, weatherCode: 2, description: "pericol", isSevere: true)]//zones
+                self.weather = zones
                 self.isLoading = false
             }
             .store(in: &bag)

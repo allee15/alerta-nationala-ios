@@ -191,4 +191,39 @@ class UserApi {
             dataTask.resume()
         }.eraseToAnyPublisher()
     }
+    
+    func updateZones(zones: [String]) -> AnyPublisher<User, Error> {
+        Future { promise in
+            let url = URL(string: "\(DefaultAPIEnvironment.basePath)user/zones")
+            
+            guard let url = url else {return}
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = "PATCH"
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+            if let token = KeychainService.shared.getAccessToken() {
+                urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
+            
+            let body: [String: Any] = ["zones": zones]
+            let jsonData = try? JSONSerialization.data(withJSONObject: body)
+            urlRequest.httpBody = jsonData
+            
+            let dataTask = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+                if let error = error {
+                    promise(.failure(error))
+                } else {
+                    do {
+                        let json = try JSON(data: data!)
+                        let user = JSONParsers.parseJsonUser(json: json)
+                        promise(.success(user))
+                    } catch {
+                        promise(.failure(error))
+                    }
+                }
+            }
+            
+            dataTask.resume()
+        }.eraseToAnyPublisher()
+    }
 }

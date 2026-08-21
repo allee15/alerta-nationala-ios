@@ -56,7 +56,11 @@ struct PrimaryButton: View {
                         Spacer()
                     }
                 } else {
-                    LoaderView(height: 24, width: 24)
+                    HStack {
+                        Spacer()
+                        LoaderView(color: [Color.textPrimary], height: 24, width: 24)
+                        Spacer()
+                    }
                 }
             }
             .frame(height: 48)
