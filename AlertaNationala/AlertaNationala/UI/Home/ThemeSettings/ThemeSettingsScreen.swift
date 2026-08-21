@@ -21,14 +21,14 @@ struct ThemeSettingsScreen: View {
                 HStack(spacing: 20) {
                     ThemeWidgetView(image: .icDarkTheme,
                                     title: "Dark",
-                                    isSelected: $viewModel.isLightModeSelected) {
-                        viewModel.applyThemeBasedOnPreference(theme: .light)
+                                    isSelected: $viewModel.isDarkModeSelected) {
+                        viewModel.applyThemeBasedOnPreference(theme: .dark)
                     }
                     
                     ThemeWidgetView(image: .icLightTheme, 
                                     title: "Light",
-                                    isSelected: $viewModel.isDarkModeSelected) {
-                        viewModel.applyThemeBasedOnPreference(theme: .dark)
+                                    isSelected: $viewModel.isLightModeSelected) {
+                        viewModel.applyThemeBasedOnPreference(theme: .light)
                     }
                     
                     ThemeWidgetView(image: .icSystemTheme,
