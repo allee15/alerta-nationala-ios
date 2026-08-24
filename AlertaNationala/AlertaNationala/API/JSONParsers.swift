@@ -79,5 +79,26 @@ class JSONParsers {
                               onset: onset,
                               expires: expires)
     }
+    
+    static func parseJsonGuideVersions(json: JSON) -> [GuideVersion] {
+        return json.arrayValue.map({ GuideVersion(id: $0["id"].stringValue,
+                                                  version: $0["version"].intValue) })
+    }
+    
+    static func parseJsonGuides(json: JSON) -> [Guide] {
+        return json.arrayValue.map({ parseJsonGuide(json: $0) })
+    }
+    
+    static func parseJsonGuide(json: JSON) -> Guide {
+        return Guide(id: json["id"].stringValue,
+                     title: json["title"].stringValue,
+                     category: json["category"].stringValue,
+                     summary: json["summary"].stringValue,
+                     version: json["version"].intValue,
+                     sections: json["sections"].arrayValue.map({ section in
+            GuideSection(heading: section["heading"].stringValue,
+                         items: section["items"].arrayValue.map({ $0.stringValue }))
+        }))
+    }
 }
 

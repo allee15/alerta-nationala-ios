@@ -31,6 +31,7 @@ struct HomeScreen: View {
                 Spacer()
                 Text(errorMessage)
                     .foregroundStyle(Color.textPrimary)
+                    .font(.poppinsBold(size: 16))
                 Spacer()
             } else {
                 ScrollView(showsIndicators: false) {
@@ -80,7 +81,7 @@ struct HomeScreen: View {
                         
                     }
                     .padding([.top, .horizontal], 16)
-                    .padding(.bottom, 32 + SafeAreaInsets.bottom)
+                    .padding(.bottom, 32 + SafeAreaInsets.bottom + 12)
                 }
             }
         }
