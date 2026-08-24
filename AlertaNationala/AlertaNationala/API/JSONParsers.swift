@@ -59,5 +59,25 @@ class JSONParsers {
                            description: json["description"].stringValue,
                            isSevere: json["isSevere"].boolValue)
     }
+    
+    static func parseJsonWeatherWarnings(json: JSON) -> [WeatherWarning] {
+        return json.arrayValue.compactMap({ parseJsonWarning(json: $0) })
+    }
+    
+    static func parseJsonWarning(json: JSON) -> WeatherWarning {
+        let color = WarningColor(rawValue: json["color"].stringValue)
+        
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions.insert(.withFractionalSeconds)
+        
+        let onset = formatter.date(from: json["onset"].stringValue) ?? Date()
+        let expires = formatter.date(from: json["expires"].stringValue) ?? Date()
+        
+        return WeatherWarning(zoneName: json["zoneName"].stringValue,
+                              color: color ?? .yellow,
+                              event: json["event"].stringValue,
+                              onset: onset,
+                              expires: expires)
+    }
 }
 

@@ -23,14 +23,18 @@ struct HomeScreen: View {
                 mainNavigation?.push(ProfileScreen().asDestination(), animated: true)
             }
             
-            ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 20) {
-                    if viewModel.isLoading {
-                        LoaderView()
-                    } else if let errorMessage = viewModel.errorMessage {
-                        Text(errorMessage)
-                            .foregroundStyle(Color.textPrimary)
-                    } else {
+            if viewModel.isLoading {
+                Spacer()
+                LoaderView()
+                Spacer()
+            } else if let errorMessage = viewModel.errorMessage {
+                Spacer()
+                Text(errorMessage)
+                    .foregroundStyle(Color.textPrimary)
+                Spacer()
+            } else {
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 20) {
                         if !viewModel.alerts.isEmpty {
                             ForEach(viewModel.alerts) { alert in
                                 Button {
@@ -46,8 +50,22 @@ struct HomeScreen: View {
                                 .font(.poppinsBold(size: 16))
                         }
                         
+                        if !viewModel.warnings.isEmpty {
+                            Text("Avertizari meteo oficiale (ANM):")
+                                .foregroundStyle(Color.textPrimary)
+                                .font(.poppinsBold(size: 16))
+                            
+                            ForEach(viewModel.warnings, id: \.zoneName) { warning in
+                                WarningCardView(warning: warning)
+                            }
+                        } else {
+                            Text("Nu exista avertizari meteo de afisat!")
+                                .foregroundStyle(Color.textPrimary)
+                                .font(.poppinsBold(size: 16))
+                        }
+                        
                         if !viewModel.weather.isEmpty {
-                            Text("Avertizari meteo:")
+                            Text("Prognoza meteo:")
                                 .foregroundStyle(Color.textPrimary)
                                 .font(.poppinsBold(size: 16))
                             
@@ -55,14 +73,15 @@ struct HomeScreen: View {
                                 WeatherCardView(zone: zone)
                             }
                         } else {
-                            Text("Nu exista avertizari meteo de afisat!")
+                            Text("Nu exista prognoze meteo de afisat!")
                                 .foregroundStyle(Color.textPrimary)
                                 .font(.poppinsBold(size: 16))
                         }
+                        
                     }
+                    .padding([.top, .horizontal], 16)
+                    .padding(.bottom, 32 + SafeAreaInsets.bottom)
                 }
-                .padding([.top, .horizontal], 16)
-                .padding(.bottom, 32)
             }
         }
         .background(Color.bgPrimary)
@@ -129,7 +148,7 @@ fileprivate struct WeatherCardView: View {
                     .foregroundStyle(Color.textPrimary)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 4)
-                    .background(zone.isSevere ? Color.redBadge : Color.yellowBadge)
+                    .background(Color.offline)
                     .clipShape(Capsule())
             }
             
@@ -139,6 +158,44 @@ fileprivate struct WeatherCardView: View {
             
             Text("\(Int(zone.temperature))°C")
                 .font(.poppinsBold(size: 16))
+                .foregroundStyle(Color.textPrimary)
+        }
+        .padding(.all, 12)
+        .border(Color.meteo, width: 1.5, cornerRadius: 12)
+    }
+}
+
+fileprivate struct WarningCardView: View {
+    let warning: WeatherWarning
+    
+    var color: Color {
+        switch warning.color {
+        case .yellow: return .yellowBadge
+        case .orange: return .orange
+        case .red: return .redBadge
+        }
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text(warning.zoneName)
+                    .font(.poppinsSemiBold(size: 16))
+                    .foregroundStyle(Color.textPrimary)
+                
+                Spacer()
+            }
+            
+            Text(warning.event)
+                .font(.poppinsSemiBold(size: 12))
+                .foregroundStyle(Color.textPrimary)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 4)
+                .background(color)
+                .clipShape(Capsule())
+            
+            Text("Valabila pana la \(warning.expires.formatted(date: .abbreviated, time: .shortened))")
+                .font(.poppinsBold(size: 14))
                 .foregroundStyle(Color.textPrimary)
         }
         .padding(.all, 12)

@@ -16,6 +16,7 @@ class HomeViewModel: BaseViewModel {
     @Published var weather: [ZoneWeather] = []
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
+    @Published var warnings: [WeatherWarning] = []
     
     override init() {
         super.init()
@@ -50,6 +51,16 @@ class HomeViewModel: BaseViewModel {
                 guard let self else {return}
                 self.weather = zones
                 self.isLoading = false
+            }
+            .store(in: &bag)
+
+        weatherService.fetchMyWarnings()
+            .receive(on: DispatchQueue.main)
+            .sink { _ in
+                
+            } receiveValue: { [weak self] warnings in
+                guard let self else {return}
+                self.warnings = warnings
             }
             .store(in: &bag)
 

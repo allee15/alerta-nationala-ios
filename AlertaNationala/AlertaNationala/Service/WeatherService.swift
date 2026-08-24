@@ -18,4 +18,8 @@ class WeatherService {
     func fetchMyWeather() -> AnyPublisher<[ZoneWeather], Error> {
         weathersApi.fetchMyWeather()
     }
+    
+    func fetchMyWarnings() -> AnyPublisher<[WeatherWarning], Error> {
+        weathersApi.fetchMyWarnings()
+    }
 }

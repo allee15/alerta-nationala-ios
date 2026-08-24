@@ -38,4 +38,33 @@ class WeatherApi {
             dataTask.resume()
         }.eraseToAnyPublisher()
     }
+    
+    func fetchMyWarnings() -> AnyPublisher<[WeatherWarning], Error> {
+        Future { promise in
+            let url = URL(string: "\(DefaultAPIEnvironment.basePath)weather/warnings/me")
+            
+            guard let url = url else {return}
+            var urlRequest = URLRequest(url: url)
+            urlRequest.httpMethod = "GET"
+            
+            if let token = KeychainService.shared.getAccessToken() {
+                urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            }
+            
+            let dataTask = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+                if let error = error {
+                    promise(.failure(error))
+                } else {
+                    do {
+                        let json = try JSON(data: data!)
+                        let warnings = JSONParsers.parseJsonWeatherWarnings(json: json)
+                        promise(.success(warnings))
+                    } catch {
+                        promise(.failure(error))
+                    }
+                }
+            }
+            dataTask.resume()
+        }.eraseToAnyPublisher()
+    }
 }
