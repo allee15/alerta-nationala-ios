@@ -21,8 +21,6 @@ class GuideService {
         guideStore.all()
     }
     
-    // Apelat la deschiderea ecranului de ghiduri (cu net disponibil).
-    // Descarca doar ce lipseste sau s-a schimbat fata de ce ai local.
     func sync(completion: @escaping () -> Void) {
         guidesApi.fetchVersions()
             .flatMap { [weak self] serverVersions -> AnyPublisher<[Guide], Error> in

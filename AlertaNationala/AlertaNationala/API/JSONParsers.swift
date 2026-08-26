@@ -100,5 +100,20 @@ class JSONParsers {
                          items: section["items"].arrayValue.map({ $0.stringValue }))
         }))
     }
+    
+    static func parseJsonAssemblyPoints(json: JSON) -> [AssemblyPoint] {
+        return json.arrayValue.map({ parseJsonPoint(json: $0) })
+    }
+    
+    static func parseJsonPoint(json: JSON) -> AssemblyPoint {
+        return AssemblyPoint(id: json["id"].stringValue,
+                             name: json["name"].stringValue,
+                             address: json["address"].stringValue,
+                             lat: json["lat"].doubleValue,
+                             lng: json["lng"].doubleValue,
+                             zone: json["zone"].stringValue,
+                             capacity: json["capacity"].int,
+                             isActive: json["isActive"].boolValue)
+    }
 }
 
