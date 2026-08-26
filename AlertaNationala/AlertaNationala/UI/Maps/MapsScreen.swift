@@ -143,7 +143,7 @@ fileprivate struct AssemblyPointCardView: View {
         .background(Color.sfCard)
         .cornerRadius(12, corners: .allCorners)
         .padding(.horizontal, 16)
-        .padding(.bottom, 80)
+        .padding(.bottom, 88)
     }
 }
 
