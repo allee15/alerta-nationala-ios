@@ -9,6 +9,11 @@ import Foundation
 import Combine
 import CoreLocation
 
+enum ViewType: Int {
+    case map = 0
+    case list = 1
+}
+
 class MapsViewModel: BaseViewModel {
     private let assemblyPointsService = AssemblyPointsService.shared
     private let locationManager = LocationManager.shared
@@ -16,6 +21,7 @@ class MapsViewModel: BaseViewModel {
     @Published var points: [AssemblyPoint] = []
     @Published var userLocation: CLLocation?
     @Published var selectedPoint: AssemblyPoint?
+    @Published var selectedTab: ViewType = .map
     
     var sortedPoints: [AssemblyPoint] {
         guard let userLocation else { return points }
