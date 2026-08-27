@@ -31,7 +31,7 @@ class RootViewModel: BaseViewModel {
         applyTheme()
         setupErrorHandling()
     }
-    //TODO: alexia trateaza cazul daca nu e internet!!
+
     func bind() {
         showBlockingError = false
         
