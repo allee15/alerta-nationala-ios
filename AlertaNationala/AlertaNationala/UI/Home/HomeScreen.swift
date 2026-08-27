@@ -37,6 +37,12 @@ struct HomeScreen: View {
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 20) {
                         if !viewModel.alerts.isEmpty {
+                            if viewModel.isShowingCachedAlerts {
+                                Text("Fara conexiune - se afiseaza ultimele alerte cunoscute.")
+                                    .font(.poppinsRegular(size: 12))
+                                    .foregroundStyle(Color.offline)
+                            }
+                            
                             ForEach(viewModel.alerts) { alert in
                                 Button {
                                     let vm = AlertDetailsViewModel(alert: alert)

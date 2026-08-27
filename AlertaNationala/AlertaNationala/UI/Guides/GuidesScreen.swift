@@ -34,7 +34,7 @@ struct GuidesScreen: View {
                             }
                         }
                     }
-                    .padding([.top, .horizontal], 16)
+                    .padding(.top, 16)
                     .padding(.bottom, 32 + SafeAreaInsets.bottom + 12)
                 }
             }

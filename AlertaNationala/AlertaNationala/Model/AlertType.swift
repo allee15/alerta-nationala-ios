@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum AlertType: String {
+enum AlertType: String, Codable {
     case cutremur = "CUTREMUR"
     case inundatie = "INUNDATIE"
     case incendiu = "INCENDIU"
@@ -26,7 +26,7 @@ enum AlertType: String {
     }
 }
 
-enum AlertSeverity: String {
+enum AlertSeverity: String, Codable {
     case informare = "INFORMARE"
     case atentionare = "ATENTIONARE"
     case pericol = "PERICOL"
@@ -40,12 +40,12 @@ enum AlertSeverity: String {
     }
 }
 
-enum AlertStatus: String {
+enum AlertStatus: String, Codable {
     case active = "ACTIVE"
     case ended = "ENDED"
 }
 
-struct NationalAlert: Identifiable {
+struct NationalAlert: Identifiable, Codable {
     let id: String
     let type: AlertType
     let severity: AlertSeverity
@@ -54,4 +54,9 @@ struct NationalAlert: Identifiable {
     let startsAt: Date
     let endsAt: Date
     let status: AlertStatus
+}
+
+struct AlertsResult {
+    let alerts: [NationalAlert]
+    let isFromCache: Bool
 }

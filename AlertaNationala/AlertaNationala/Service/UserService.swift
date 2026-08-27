@@ -91,6 +91,12 @@ class UserService {
                 }
 
                 return self.refreshToken()
+                    .catch { [weak self] refreshError -> AnyPublisher<TokenResponse, Error> in
+                        if case AuthError.unauthorized = refreshError {
+                            self?.forceLogout()
+                        }
+                        return Fail(error: refreshError).eraseToAnyPublisher()
+                    }
                     .flatMap { [weak self] _ -> AnyPublisher<User, Error> in
                         guard let self else {
                             return Fail(error: AuthError.unauthorized).eraseToAnyPublisher()
@@ -99,13 +105,12 @@ class UserService {
                     }
                     .eraseToAnyPublisher()
             }
-            .handleEvents(receiveCompletion: { [weak self] completion in
-                if case .failure = completion {
-                    self?.keychainService.clearTokens()
-                    self?.userReactiveData.pushValue(value: .anonymous)
-                }
-            })
             .eraseToAnyPublisher()
+    }
+
+    private func forceLogout() {
+        keychainService.clearTokens()
+        userReactiveData.pushValue(value: .anonymous)
     }
     
     func logout() -> AnyPublisher<Bool, Error> {

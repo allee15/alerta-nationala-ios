@@ -17,6 +17,7 @@ class HomeViewModel: BaseViewModel {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String? = nil
     @Published var warnings: [WeatherWarning] = []
+    @Published var isShowingCachedAlerts: Bool = false
     
     override init() {
         super.init()
@@ -36,9 +37,10 @@ class HomeViewModel: BaseViewModel {
                     self?.errorMessage = "Nu am putut incarca alertele. Verifica conexiunea la internet."
                 }
                 self?.isLoading = false
-            } receiveValue: { [weak self] alerts in
+            } receiveValue: { [weak self] result in
                 guard let self else {return}
-                self.alerts = alerts
+                self.alerts = result.alerts
+                self.isShowingCachedAlerts = result.isFromCache
                 self.isLoading = false
             }
             .store(in: &bag)

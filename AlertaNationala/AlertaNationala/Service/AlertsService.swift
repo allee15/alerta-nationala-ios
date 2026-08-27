@@ -13,12 +13,27 @@ class AlertsService {
     private let alertsApi = AlertsApi()
     var bag = Set<AnyCancellable>()
     
+    let store = AlertsStore.shared
     private let userService = UserService.shared
     
     private init() { }
     
-    func fetchAlerts() -> AnyPublisher<[NationalAlert], Error> {
-        alertsApi.fetchAlerts()
+    func fetchAlerts() -> AnyPublisher<AlertsResult, Error> {
+        let cached = store.load()
+
+        let networkPublisher = alertsApi.fetchAlerts()
+            .handleEvents(receiveOutput: { alerts in
+                self.store.replace(alerts)
+            })
+            .map { AlertsResult(alerts: $0, isFromCache: false) }
+            .eraseToAnyPublisher()
+
+        guard let cached else { return networkPublisher }
+
+        return Just(AlertsResult(alerts: cached.alerts, isFromCache: true))
+            .setFailureType(to: Error.self)
+            .append(networkPublisher.catch { _ in Empty<AlertsResult, Error>() })
+            .eraseToAnyPublisher()
     }
     
     func checkIn(alertId: String) {
